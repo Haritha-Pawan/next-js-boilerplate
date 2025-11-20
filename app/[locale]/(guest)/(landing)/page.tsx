@@ -1,3 +1,5 @@
+import Service from "@/components/landing/features/grid/grid-1";
+import Hero from "@/components/landing/hero/hero-1";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 
@@ -6,34 +8,11 @@ export default function LandingPage() {
     <>
       <div className="flex flex-col items-center justify-center px-4 md:px-6 lg:px-8">
         {/* Hero Section */}
-        <div className="mt-32 md:mt-32 text-center">
-          <h1 className="text-2xl md:text-4xl font-bold tracking-tight">
-            Build Your SaaS Faster with Founderflow
-          </h1>
-          <p className="mt-6 text-lg md:text-xl text-muted-foreground max-w-3xl mx-auto">
-            A modern, fully featured Next.js boilerplate with authentication,
-            subscriptions, i18n, beautiful UI components, and everything you
-            need to launch your SaaS quickly.
-          </p>
-          <div className="mt-8 flex flex-col sm:flex-row gap-4 justify-center">
-            <Link href="https://boilerplates.founderflow.lk/docs">
-              <Button size="lg" className="w-full sm:w-auto font-semibold">
-                View Documentation
-              </Button>
-            </Link>
-            <Link href="https://github.com/founderflow-boilderplate/nextjs-mdb-clr/">
-              <Button
-                size="lg"
-                variant="outline"
-                className="w-full sm:w-auto font-semibold"
-              >
-                GitHub Repository
-              </Button>
-            </Link>
-          </div>
-        </div>
+        <Hero/>
+       
 
         {/* Features Section */}
+        <Service/>
         <div className="mt-24 md:mt-32 grid grid-cols-1 md:grid-cols-3 gap-8 max-w-screen-xl w-full">
           <div className="flex flex-col items-center text-center p-6">
             <div className="h-12 w-12 rounded-lg bg-primary/10 flex items-center justify-center mb-4">

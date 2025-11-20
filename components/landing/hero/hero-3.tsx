@@ -8,25 +8,25 @@ import {
   useMotionValue,
   useSpring,
 } from "framer-motion";
-import { ArrowRight, Sparkles, Zap, Star, Play } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
+import { ArrowRight, Sparkles, Zap, TrendingUp, Play, CalendarCheck } from "lucide-react";
 
-export default function Hero3() {
-  const containerRef = useRef(null);
+export default function ImmersiveHero() {
+  const containerRef = useRef<HTMLDivElement>(null);
   const mouseX = useMotionValue(0);
   const mouseY = useMotionValue(0);
   const [isHovered, setIsHovered] = useState(false);
 
+  // Scroll Parallax Effects
   const { scrollYProgress } = useScroll({
     target: containerRef,
     offset: ["start start", "end start"],
   });
 
   const opacity = useTransform(scrollYProgress, [0, 0.5], [1, 0]);
-  const scale = useTransform(scrollYProgress, [0, 0.5], [1, 0.8]);
-  const y = useTransform(scrollYProgress, [0, 0.5], [0, -100]);
+  const scale = useTransform(scrollYProgress, [0, 0.5], [1, 0.9]);
+  const y = useTransform(scrollYProgress, [0, 0.5], [0, -50]);
 
+  // Mouse Tracking Spring Physics
   const mouseXSpring = useSpring(mouseX, { damping: 25, stiffness: 700 });
   const mouseYSpring = useSpring(mouseY, { damping: 25, stiffness: 700 });
 
@@ -34,6 +34,7 @@ export default function Hero3() {
     const rect = event.currentTarget.getBoundingClientRect();
     const centerX = rect.left + rect.width / 2;
     const centerY = rect.top + rect.height / 2;
+    // Calculate distance from center for 3D tilt
     mouseX.set(event.clientX - centerX);
     mouseY.set(event.clientY - centerY);
   };
@@ -41,164 +42,158 @@ export default function Hero3() {
   return (
     <section
       ref={containerRef}
-      className="relative flex justify-center pt-[120px] overflow-hidden min-h-screen"
+      className="relative flex justify-center pt-32 pb-20 overflow-hidden min-h-screen bg-slate-950"
       onMouseMove={handleMouseMove}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
-      {/* Enhanced gradient backgrounds */}
-      <div className="absolute inset-0 bg-gradient-to-br from-primary/10 via-background via-purple-900/5 to-secondary/10 z-0"></div>
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-primary/20 via-transparent to-transparent z-0"></div>
-      <div className="absolute inset-0 bg-gradient-to-r from-blue-600/20 via-purple-600/20 to-pink-600/20 z-0">
-        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-background/50 to-background z-10"></div>
+      {/* 1. BACKGROUND LAYERS */}
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-blue-900/20 via-slate-950 to-slate-950 z-0"></div>
+      
+      {/* Animated Gradient Mesh */}
+      <div className="absolute inset-0 opacity-30">
+        <div className="absolute inset-0 bg-gradient-to-r from-blue-600/20 via-purple-600/20 to-pink-600/20 mix-blend-overlay"></div>
+        <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20"></div>
       </div>
 
-      {/* Content */}
+      {/* 2. MAIN CONTENT */}
       <motion.div
-        className="container relative z-20"
+        className="container px-4 mx-auto relative z-20"
         style={{ opacity, scale, y }}
       >
-        <div className="max-w-4xl mx-auto text-center">
-          {/* Enhanced badge */}
+        <div className="max-w-5xl mx-auto text-center perspective-[1000px]">
+          
+          {/* Badge */}
           <motion.div
             initial={{ opacity: 0, y: 20, scale: 0.8 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             transition={{ duration: 0.6, type: "spring" }}
-            className="mb-6"
+            className="flex justify-center mb-8"
           >
-            <Badge className="px-4 py-2 text-sm bg-gradient-to-r from-primary/20 to-secondary/20 text-primary border-primary/30 backdrop-blur-sm hover:scale-105 transition-all duration-300 group">
-              <Sparkles className="w-3 h-3 mr-2 group-hover:rotate-180 transition-transform duration-500" />
-              Next-Gen Glassmorphism
-              <Zap className="w-3 h-3 ml-2 group-hover:scale-125 transition-transform duration-300" />
-            </Badge>
+            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/5 border border-white/10 backdrop-blur-md text-blue-300 text-sm font-medium hover:bg-white/10 hover:scale-105 transition-all duration-300 cursor-default shadow-[0_0_20px_-5px_rgba(59,130,246,0.5)]">
+              <Sparkles className="w-4 h-4 text-blue-400 animate-pulse" />
+              <span>AI Auto-Scheduling 2.0 is Live</span>
+              <div className="w-px h-4 bg-white/20 mx-2"></div>
+              <span className="text-white/60 text-xs">Read Update</span>
+            </div>
           </motion.div>
 
-          {/* Enhanced title */}
-          <motion.h1
-            className="text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight mb-8 leading-tight"
-            initial={{ opacity: 0, y: 30, rotateX: 15 }}
-            animate={{ opacity: 1, y: 0, rotateX: 0 }}
-            transition={{ duration: 0.8, delay: 0.1, type: "spring" }}
+          {/* 3D Tilt Title Container */}
+          <motion.div
+            className="mb-8"
             style={{
               transformStyle: "preserve-3d",
               transform: isHovered
-                ? `perspective(1000px) rotateX(${mouseYSpring.get() * 0.01}deg) rotateY(${mouseXSpring.get() * 0.01}deg)`
+                ? `perspective(1000px) rotateX(${mouseYSpring.get() * -0.01}deg) rotateY(${mouseXSpring.get() * 0.01}deg)`
                 : "perspective(1000px)",
             }}
           >
-            <span className="bg-clip-text text-transparent bg-gradient-to-r from-primary via-purple-500 to-secondary">
-              Immersive
-            </span>
-            <span className="block bg-clip-text text-transparent bg-gradient-to-r from-secondary via-pink-500 to-primary">
-              Glassmorphism
-            </span>
-            <span className="block text-4xl md:text-5xl lg:text-6xl bg-clip-text text-transparent bg-gradient-to-r from-purple-400 via-pink-400 to-blue-400">
-              Experience
-            </span>
-          </motion.h1>
+            <motion.h1
+              className="text-5xl md:text-7xl lg:text-8xl font-extrabold tracking-tight leading-[1.1] text-white"
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.1 }}
+            >
+              <span className="block">Automate your</span>
+              <span className="bg-clip-text text-transparent bg-gradient-to-r from-blue-400 via-indigo-400 to-purple-400 animate-gradient-x">
+                entire workflow.
+              </span>
+            </motion.h1>
+          </motion.div>
 
-          {/* Enhanced description */}
+          {/* Description */}
           <motion.p
-            className="text-xl md:text-2xl text-muted-foreground max-w-3xl mx-auto mb-10 leading-relaxed"
+            className="text-lg md:text-2xl text-slate-400 max-w-2xl mx-auto mb-12 leading-relaxed font-light"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.3 }}
           >
-            Experience the future of web design with our cutting-edge
-            glassmorphism components. Featuring advanced animations, particle
-            effects, and interactive 3D transformations.
+            The all-in-one platform for service businesses. Capture bookings, 
+            manage customers, and process payments—all on autopilot.
           </motion.p>
 
-          {/* Enhanced CTA buttons */}
+          {/* Buttons */}
           <motion.div
-            className="flex flex-col sm:flex-row gap-6 justify-center mb-16"
+            className="flex flex-col sm:flex-row gap-6 justify-center mb-20"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.4 }}
           >
-            <Button
-              size="lg"
-              className="group relative overflow-hidden bg-gradient-to-r from-primary to-secondary hover:from-primary/90 hover:to-secondary/90 text-lg px-8 py-4 rounded-xl shadow-2xl hover:shadow-primary/25 transition-all duration-300 hover:scale-105"
-            >
-              <div className="absolute inset-0 bg-gradient-to-r from-white/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-              <span className="relative z-10">Launch Experience</span>
-              <ArrowRight className="ml-3 h-5 w-5 transition-all duration-300 group-hover:translate-x-2 group-hover:rotate-12" />
-            </Button>
+            {/* Primary Button with Shine Effect */}
+            <button className="group relative overflow-hidden rounded-full bg-blue-600 px-8 py-4 text-lg font-bold text-white shadow-[0_0_40px_-10px_rgba(37,99,235,0.5)] transition-all duration-300 hover:scale-105 hover:shadow-[0_0_60px_-15px_rgba(37,99,235,0.6)]">
+              <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent translate-x-[-100%] group-hover:animate-[shimmer_1.5s_infinite]"></div>
+              <span className="relative flex items-center gap-2">
+                Get Started Free <ArrowRight className="w-5 h-5" />
+              </span>
+            </button>
 
-            <Button
-              size="lg"
-              variant="outline"
-              className="group border-2 border-primary/30 hover:bg-primary/10 text-lg px-8 py-4 rounded-xl backdrop-blur-sm hover:border-primary/50 transition-all duration-300 hover:scale-105"
-            >
-              <Play className="mr-3 h-5 w-5 group-hover:scale-110 transition-transform duration-300" />
+            {/* Secondary Glass Button */}
+            <button className="group flex items-center gap-3 rounded-full border border-white/10 bg-white/5 px-8 py-4 text-lg font-semibold text-white backdrop-blur-md transition-all duration-300 hover:bg-white/10 hover:scale-105">
+              <div className="flex h-8 w-8 items-center justify-center rounded-full bg-white/10 group-hover:bg-white/20 transition-colors">
+                <Play className="w-4 h-4 fill-current" />
+              </div>
               Watch Demo
-            </Button>
+            </button>
           </motion.div>
 
-          {/* Enhanced glass card */}
+          {/* 3. GLASS STATS CARD (The 3D Object) */}
           <motion.div
-            className="relative max-w-4xl mx-auto"
-            initial={{ opacity: 0, y: 40, rotateX: 10 }}
+            className="relative max-w-5xl mx-auto"
+            initial={{ opacity: 0, y: 40, rotateX: 20 }}
             animate={{ opacity: 1, y: 0, rotateX: 0 }}
             transition={{ duration: 0.8, delay: 0.5, type: "spring" }}
             style={{
               transformStyle: "preserve-3d",
               transform: isHovered
-                ? `perspective(1000px) rotateX(${mouseYSpring.get() * 0.005}deg) rotateY(${mouseXSpring.get() * 0.005}deg)`
+                ? `perspective(1000px) rotateX(${mouseYSpring.get() * 0.02}deg) rotateY(${mouseXSpring.get() * 0.02}deg)`
                 : "perspective(1000px)",
             }}
           >
-            {/* Glow layers */}
-            <div className="absolute inset-0 bg-gradient-to-r from-primary/30 to-secondary/30 rounded-2xl blur-2xl animate-pulse"></div>
-            <div className="absolute inset-0 bg-gradient-to-r from-purple-500/20 to-pink-500/20 rounded-2xl blur-xl"></div>
+            {/* Back Glow */}
+            <div className="absolute -inset-4 bg-gradient-to-r from-blue-600/30 to-purple-600/30 rounded-[2rem] blur-3xl opacity-50"></div>
 
-            <div className="relative backdrop-blur-xl bg-background/20 border border-white/20 rounded-2xl p-8 shadow-2xl">
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {/* Glass Container */}
+            <div className="relative backdrop-blur-2xl bg-slate-900/40 border border-white/10 rounded-[2rem] p-8 md:p-12 shadow-2xl ring-1 ring-white/5">
+              
+              {/* Inner Grid */}
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                 {[
                   {
-                    number: "99.9%",
-                    label: "Customer Satisfaction",
-                    icon: Star,
-                    color: "from-yellow-400 to-orange-500",
+                    label: "Revenue Growth",
+                    value: "+128%",
+                    icon: TrendingUp,
+                    color: "text-green-400",
+                    bg: "bg-green-400/10",
+                    desc: "Average year-one growth"
                   },
                   {
-                    number: "24/7",
-                    label: "AI-Powered Support",
+                    label: "Time Saved",
+                    value: "24hrs",
                     icon: Zap,
-                    color: "from-blue-400 to-purple-500",
+                    color: "text-yellow-400",
+                    bg: "bg-yellow-400/10",
+                    desc: "Per week on admin tasks"
                   },
                   {
-                    number: "500+",
-                    label: "Premium Components",
-                    icon: Sparkles,
-                    color: "from-pink-400 to-red-500",
+                    label: "Active Bookings",
+                    value: "1.2M+",
+                    icon: CalendarCheck,
+                    color: "text-blue-400",
+                    bg: "bg-blue-400/10",
+                    desc: "Appointments scheduled"
                   },
-                ].map((stat, index) => (
+                ].map((stat, i) => (
                   <motion.div
-                    key={index}
-                    className="text-center p-6 rounded-xl bg-white/5 backdrop-blur-sm border border-white/10 hover:bg-white/10 transition-all duration-300 group"
-                    initial={{ opacity: 0, y: 30, scale: 0.8 }}
-                    animate={{ opacity: 1, y: 0, scale: 1 }}
-                    transition={{
-                      duration: 0.5,
-                      delay: 0.6 + index * 0.1,
-                      type: "spring",
-                    }}
-                    whileHover={{ scale: 1.05, y: -5 }}
+                    key={i}
+                    className="group relative overflow-hidden rounded-2xl bg-white/5 p-6 border border-white/5 hover:bg-white/10 transition-all duration-300"
+                    whileHover={{ y: -5 }}
                   >
-                    <div
-                      className={`w-12 h-12 mx-auto mb-4 rounded-full bg-gradient-to-r ${stat.color} flex items-center justify-center group-hover:scale-110 transition-transform duration-300`}
-                    >
-                      <stat.icon className="w-6 h-6 text-white" />
+                    <div className={`w-12 h-12 rounded-xl ${stat.bg} ${stat.color} flex items-center justify-center mb-4 group-hover:scale-110 transition-transform`}>
+                      <stat.icon className="w-6 h-6" />
                     </div>
-                    <div
-                      className={`text-4xl font-bold bg-clip-text text-transparent bg-gradient-to-r ${stat.color} mb-2`}
-                    >
-                      {stat.number}
-                    </div>
-                    <div className="text-sm text-muted-foreground font-medium">
-                      {stat.label}
-                    </div>
+                    <div className="text-4xl font-bold text-white mb-2 tracking-tight">{stat.value}</div>
+                    <div className="text-lg font-semibold text-white/80 mb-1">{stat.label}</div>
+                    <div className="text-sm text-slate-400">{stat.desc}</div>
                   </motion.div>
                 ))}
               </div>
@@ -207,111 +202,48 @@ export default function Hero3() {
         </div>
       </motion.div>
 
-      {/* Enhanced floating elements */}
+      {/* 4. FLOATING BACKGROUND ELEMENTS */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        {/* Animated gradient orbs */}
+        {/* Large Moving Orbs */}
         <motion.div
-          className="absolute top-1/4 left-1/4 h-48 w-48 rounded-full bg-gradient-to-r from-primary/30 to-purple-500/30 blur-3xl"
-          animate={{
-            x: [0, 60, 0],
-            y: [0, 40, 0],
-            scale: [1, 1.3, 1],
-            opacity: [0.2, 0.6, 0.2],
-            rotate: [0, 180, 360],
-          }}
+          className="absolute top-1/4 left-0 w-[500px] h-[500px] bg-blue-600/20 rounded-full blur-[120px]"
+          animate={{ x: [0, 100, 0], y: [0, 50, 0], scale: [1, 1.1, 1] }}
           transition={{ duration: 20, repeat: Infinity, ease: "easeInOut" }}
         />
-
         <motion.div
-          className="absolute bottom-1/4 right-1/4 h-64 w-64 rounded-full bg-gradient-to-r from-secondary/30 to-pink-500/30 blur-3xl"
-          animate={{
-            x: [0, -60, 0],
-            y: [0, -40, 0],
-            scale: [1, 1.4, 1],
-            opacity: [0.1, 0.5, 0.1],
-            rotate: [0, -180, -360],
-          }}
-          transition={{
-            duration: 25,
-            repeat: Infinity,
-            ease: "easeInOut",
-            delay: 2,
-          }}
+          className="absolute bottom-0 right-0 w-[600px] h-[600px] bg-purple-600/10 rounded-full blur-[120px]"
+          animate={{ x: [0, -50, 0], y: [0, -50, 0], scale: [1, 1.2, 1] }}
+          transition={{ duration: 25, repeat: Infinity, ease: "easeInOut" }}
         />
 
-        <motion.div
-          className="absolute top-2/3 left-2/3 h-40 w-40 rounded-full bg-gradient-to-r from-purple-500/30 to-blue-500/30 blur-3xl"
-          animate={{
-            x: [0, 40, 0],
-            y: [0, -50, 0],
-            scale: [1, 1.5, 1],
-            opacity: [0.1, 0.4, 0.1],
-            rotate: [0, 90, 180],
-          }}
-          transition={{
-            duration: 18,
-            repeat: Infinity,
-            ease: "easeInOut",
-            delay: 4,
-          }}
-        />
-
-        {/* Particle effects */}
-        {[...Array(15)].map((_, i) => (
+        {/* Floating Particles */}
+        {[...Array(20)].map((_, i) => (
           <motion.div
             key={i}
-            className="absolute w-1 h-1 bg-white/30 rounded-full"
+            className="absolute w-1 h-1 bg-white/40 rounded-full"
             style={{
               left: `${Math.random() * 100}%`,
               top: `${Math.random() * 100}%`,
             }}
             animate={{
-              y: [0, -100, 0],
-              opacity: [0, 1, 0],
-              scale: [0, 1, 0],
+              y: [0, Math.random() * -100 - 50],
+              opacity: [0, 0.8, 0],
+              scale: [0, 1.5, 0],
             }}
             transition={{
-              duration: 3 + Math.random() * 2,
+              duration: Math.random() * 5 + 5,
               repeat: Infinity,
-              delay: Math.random() * 2,
+              ease: "linear",
+              delay: Math.random() * 5,
             }}
           />
         ))}
-
-        {/* Geometric shapes */}
-        <motion.div
-          className="absolute top-1/3 right-1/4 w-16 h-16 border border-primary/20 rounded-lg"
-          animate={{
-            rotate: [0, 360],
-            scale: [1, 1.2, 1],
-            opacity: [0.3, 0.6, 0.3],
-          }}
-          transition={{ duration: 10, repeat: Infinity }}
-        />
-
-        <motion.div
-          className="absolute bottom-1/3 left-1/4 w-12 h-12 border border-secondary/20 rounded-full"
-          animate={{
-            rotate: [360, 0],
-            scale: [1, 1.3, 1],
-            opacity: [0.2, 0.5, 0.2],
-          }}
-          transition={{ duration: 8, repeat: Infinity, delay: 1 }}
-        />
       </div>
 
-      {/* Mouse follower effect */}
+      {/* Mouse Follower Orb (Optional - Keep for 'Immersive' feel) */}
       <motion.div
-        className="fixed w-4 h-4 bg-gradient-to-r from-primary to-secondary rounded-full pointer-events-none z-50 mix-blend-difference"
-        style={{
-          x: mouseXSpring,
-          y: mouseYSpring,
-        }}
-        animate={{
-          scale: isHovered ? 2 : 1,
-          opacity: isHovered ? 0.8 : 0,
-        }}
-        transition={{ duration: 0.3 }}
+        className="fixed top-0 left-0 w-8 h-8 border border-white/30 rounded-full pointer-events-none z-50 mix-blend-difference"
+        style={{ x: mouseXSpring, y: mouseYSpring }}
       />
     </section>
   );

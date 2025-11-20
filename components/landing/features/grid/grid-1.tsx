@@ -1,151 +1,147 @@
-"use client";
+import Link from 'next/link'
+import Image from 'next/image'
+import { Clock, MapPin, Star, ArrowRight, Tag } from 'lucide-react'
 
-import {
-  BarChart,
-  Clock,
-  Cloud,
-  Code,
-  Cog,
-  Database,
-  Globe,
-  Lock,
-  MessageSquare,
-  Smartphone,
-  Users,
-  Zap,
-} from "lucide-react";
-import { motion } from "framer-motion";
-import { Reveal } from "@/components/ui/reveal";
-import { StaggerChildren, StaggerItem } from "@/components/ui/stagger-children";
+// Import your images
+import img1 from '../../../../public/oil.jpeg'
+import img2 from '../../../../public/health.jpeg'
+import img3 from '../../../../public/saloon.jpeg'
+import img4 from '../../../../public/carwash.jpeg'
 
-export default function FeaturesGrid() {
-  const features = [
+const Service = () => {
+  
+  // Data Array: Makes it easy to add/edit offers without copying code
+  const offers = [
     {
-      icon: <BarChart className="h-6 w-6" />,
-      title: "Advanced Analytics",
-      description:
-        "Gain deep insights with customizable dashboards and reports.",
+      id: 1,
+      title: "Women's Haircut",
+      provider: "Elite Hair Salon",
+      price: "1,200.00",
+      image: img1,
+      tag: "First Visit",
+      tagColor: "bg-purple-100 text-purple-700",
+      rating: 4.8,
+      location: "Colombo 03"
     },
     {
-      icon: <Clock className="h-6 w-6" />,
-      title: "Workflow Automation",
-      description:
-        "Automate repetitive tasks with our visual workflow builder.",
+      id: 2,
+      title: "General Checkup",
+      provider: "Hemas Hospitals",
+      price: "3,200.00",
+      image: img2,
+      tag: "New Patient",
+      tagColor: "bg-blue-100 text-blue-700",
+      rating: 4.9,
+      location: "Wattala"
     },
     {
-      icon: <Users className="h-6 w-6" />,
-      title: "Team Collaboration",
-      description:
-        "Work together seamlessly with integrated communication tools.",
+      id: 3,
+      title: "Luxury Facial",
+      provider: "Elite Hair Salon",
+      price: "1,200.00",
+      image: img3,
+      tag: "Limited Time",
+      tagColor: "bg-amber-100 text-amber-700",
+      rating: 4.7,
+      location: "Colombo 07"
     },
     {
-      icon: <Cloud className="h-6 w-6" />,
-      title: "Cloud Infrastructure",
-      description: "Reliable, scalable hosting with 99.9% uptime guarantee.",
-    },
-    {
-      icon: <Code className="h-6 w-6" />,
-      title: "Developer API",
-      description: "Extend functionality with our comprehensive API.",
-    },
-    {
-      icon: <Lock className="h-6 w-6" />,
-      title: "Enterprise Security",
-      description: "Protect your data with bank-level encryption and controls.",
-    },
-    {
-      icon: <Globe className="h-6 w-6" />,
-      title: "Global Accessibility",
-      description: "Access your data from anywhere, on any device.",
-    },
-    {
-      icon: <Database className="h-6 w-6" />,
-      title: "Data Management",
-      description: "Organize and manage your data with powerful tools.",
-    },
-    {
-      icon: <MessageSquare className="h-6 w-6" />,
-      title: "Customer Support",
-      description: "Get help when you need it with 24/7 customer support.",
-    },
-    {
-      icon: <Smartphone className="h-6 w-6" />,
-      title: "Mobile Apps",
-      description: "Stay productive on the go with our mobile applications.",
-    },
-    {
-      icon: <Cog className="h-6 w-6" />,
-      title: "Customization",
-      description: "Tailor the platform to your specific business needs.",
-    },
-    {
-      icon: <Zap className="h-6 w-6" />,
-      title: "Performance",
-      description: "Lightning-fast performance even with large datasets.",
-    },
+      id: 4,
+      title: "Premium Car Wash",
+      provider: "David Car Center",
+      price: "5,200.00",
+      image: img4,
+      tag: "Hot Deal",
+      tagColor: "bg-red-100 text-red-700",
+      rating: 4.6,
+      location: "Nugegoda"
+    }
   ];
 
   return (
-    <section className="w-full flex flex-col items-center py-12 md:py-24 lg:py-32 bg-muted/50 relative overflow-hidden">
-      {/* Animated background elements */}
-      <motion.div
-        className="absolute top-0 right-0 h-96 w-96 rounded-full bg-primary/5 blur-[100px]"
-        animate={{
-          scale: [1, 1.2, 1],
-          opacity: [0.3, 0.5, 0.3],
-        }}
-        transition={{ duration: 10, repeat: Number.POSITIVE_INFINITY }}
-      />
-
-      <div className="container flex flex-col text-center items-center px-4 md:px-6">
-        <div className="flex flex-col items-center text-center  space-y-4">
-          <div className="space-y-2 flex flex-col items-center">
-            <Reveal>
-              <div className="inline-block rounded-lg bg-primary/10 px-3 py-1 text-sm text-primary">
-                Feature Rich
-              </div>
-            </Reveal>
-            <Reveal delay={0.1}>
-              <h2 className="text-3xl font-bold tracking-tighter md:text-4xl/tight">
-                Everything You Need in One Place
-              </h2>
-            </Reveal>
-            <Reveal delay={0.2}>
-              <p className="mx-auto max-w-[700px] text-muted-foreground md:text-xl/relaxed">
-                Our comprehensive platform provides all the tools you need to
-                run and grow your business.
-              </p>
-            </Reveal>
+    <div className="w-full py-20 bg-slate-50">
+       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        
+        {/* 1. SECTION HEADER */}
+        <div className="text-center max-w-3xl mx-auto mb-16">
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-gradient-to-r from-pink-500 to-orange-500 text-white text-sm font-bold shadow-lg shadow-orange-500/20 mb-6">
+            <Clock className="w-4 h-4" /> Limited time Offers
           </div>
+          <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-4 tracking-tight">
+            Exclusive Deals & Discounts
+          </h2>
+          <p className="text-lg text-slate-600">
+            Save big on your next appointment. Book these special offers from our top-rated providers before they expire.
+          </p>
         </div>
-        <StaggerChildren className="mx-auto mt-12 grid gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-          {features.map((feature, index) => (
-            <StaggerItem key={index}>
-              <motion.div
-                className="flex flex-col items-center rounded-lg border bg-background p-4 text-center shadow-sm transition-all hover:shadow-md"
-                whileHover={{
-                  y: -5,
-                  boxShadow:
-                    "0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)",
-                }}
-                transition={{ type: "spring", stiffness: 400, damping: 10 }}
-              >
-                <motion.div
-                  className="mb-3 flex h-12 w-12 items-center justify-center rounded-full bg-primary/10 text-primary"
-                  whileHover={{ rotate: 5 }}
-                  transition={{ type: "spring", stiffness: 400, damping: 10 }}
-                >
-                  {feature.icon}
-                </motion.div>
-                <h3 className="mb-1 text-lg font-medium">{feature.title}</h3>
-                <p className="text-sm text-muted-foreground">
-                  {feature.description}
-                </p>
-              </motion.div>
-            </StaggerItem>
+
+        {/* 2. CARDS GRID */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+          
+          {offers.map((offer) => (
+            <div key={offer.id} className="group bg-white rounded-2xl border border-slate-200 overflow-hidden hover:shadow-xl hover:shadow-slate-200/60 transition-all duration-300 hover:-translate-y-1 flex flex-col">
+              
+              {/* Image Container */}
+              <div className="relative h-48 w-full overflow-hidden">
+                <Image 
+                  src={offer.image} 
+                  alt={offer.title} 
+                  className="object-cover w-full h-full group-hover:scale-110 transition-transform duration-500"
+                />
+                {/* Badge */}
+                <div className={`absolute top-3 left-3 px-3 py-1 rounded-full text-xs font-bold shadow-sm flex items-center gap-1 ${offer.tagColor}`}>
+                  <Tag className="w-3 h-3" /> {offer.tag}
+                </div>
+              </div>
+
+              {/* Content */}
+              <div className="p-5 flex-1 flex flex-col">
+                
+                {/* Provider Info */}
+                <div className="flex justify-between items-start mb-2">
+                  <div className="text-xs font-semibold text-slate-500 uppercase tracking-wider">{offer.provider}</div>
+                  <div className="flex items-center gap-1 text-xs font-bold text-amber-500 bg-amber-50 px-1.5 py-0.5 rounded">
+                    <Star className="w-3 h-3 fill-current" /> {offer.rating}
+                  </div>
+                </div>
+
+                {/* Title */}
+                <h3 className="text-lg font-bold text-slate-900 mb-1 group-hover:text-blue-600 transition-colors">
+                  {offer.title}
+                </h3>
+
+                {/* Location */}
+                <div className="flex items-center gap-1 text-xs text-slate-400 mb-4">
+                  <MapPin className="w-3 h-3" /> {offer.location}
+                </div>
+
+                {/* Price & Action - Pushed to bottom */}
+                <div className="mt-auto pt-4 border-t border-slate-100 flex items-center justify-between">
+                  <div>
+                    <span className="text-xs text-slate-400 block">Price</span>
+                    <span className="text-lg font-bold text-slate-900">Rs {offer.price}</span>
+                  </div>
+                  
+                  <button className="w-10 h-10 rounded-full bg-blue-50 text-blue-600 flex items-center justify-center group-hover:bg-blue-600 group-hover:text-white transition-all duration-300 shadow-sm">
+                    <ArrowRight className="w-5 h-5" />
+                  </button>
+                </div>
+              </div>
+            </div>
           ))}
-        </StaggerChildren>
+
+        </div>
+        
+        {/* 3. Bottom CTA */}
+        <div className="mt-16 text-center">
+           <Link href="/" className="inline-flex items-center justify-center gap-2 px-6 py-3 text-sm font-semibold text-slate-700 bg-white border border-slate-300 rounded-lg hover:bg-slate-50 hover:border-slate-400 transition-all">
+             View All Offers <ArrowRight className="w-4 h-4" />
+           </Link>
+        </div>
+
       </div>
-    </section>
-  );
+    </div>
+  )
 }
+
+export default Service

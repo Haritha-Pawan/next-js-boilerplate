@@ -1,8 +1,8 @@
 version: 3
 agent:
-  authtoken: <YOUR_NGROK_AUTH_TOKEN>
+  authtoken: 35jSmvICCCwDpkRMsJyinBccWEe_34kdHP2HaSGYbuwbLR8jo
 endpoints:
   - name: app
-    url: <YOUR_NGROK_URL>
+    url: https://ainsley-templelike-sheron.ngrok-free.dev 
     upstream:
       url: http://localhost:3000
