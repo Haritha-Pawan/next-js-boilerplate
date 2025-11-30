@@ -4,6 +4,7 @@ import mongoose, { Schema } from "mongoose";
 // Define the User schema
 const UserSchema = new Schema(
   {
+    //
     // Unique identifier for the user
     id: { type: String, default: new mongoose.Types.ObjectId(), unique: true },
     emailAddress: [{ type: String }],
